@@ -27,16 +27,24 @@ void test_isgzip(void){
 }
 
 void test_read_file(void){
+    TEST_ASSERT_TRUE(read_file("test.txt"));
     TEST_ASSERT_TRUE(read_file("test.gzip"));
-
+    TEST_ASSERT_TRUE(read_file("test_long.txt"));
 }
 
+
+void test_get_data_type(void){
+    TEST_ASSERT(get_data_type("test.fasta") == FASTA);
+    TEST_ASSERT(get_data_type("test.fastq") == FASTQ);
+
+}
 
 
 int main(void){
     UNITY_BEGIN();
     RUN_TEST(test_isgzip);
     RUN_TEST(test_read_file);
+    RUN_TEST(test_get_data_type);
     return UNITY_END();
 }
 

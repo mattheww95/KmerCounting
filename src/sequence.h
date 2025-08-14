@@ -15,6 +15,11 @@
 #include <string.h>
 #include <stdint.h>
 
+typedef enum DataType{
+    FASTQ,
+    FASTA
+}DataType;
+
 typedef struct _sequence_file_data{
    ssize_t length;
    ssize_t size;
@@ -33,7 +38,6 @@ _sequence_file_data* init_file_data(ssize_t size){
 void destroy_sequence_file_data(_sequence_file_data* data){ 
     free(data->data);
     free(data);
-
 }
 
 
@@ -47,6 +51,15 @@ void add_data(_sequence_file_data* data, char* new_data){
     memcpy(&data->data[data->length], new_data, new_data_length); 
     data->length += new_data_length;
 }
+
+void find_sequences(const char* restrict buffer, DataType fasta_type){
+
+    
+
+
+}
+
+
 
 /* 
  * Test if file is gzipped compressed based on magic numbers.
@@ -108,15 +121,43 @@ bool read_file(const char* filepath){
             }
         }
     } 
-    fprintf(stdout, "Data: ");
-    for(int i = 0; i < sequence_data->length; i++){ 
-        fprintf(stdout, "%c", sequence_data->data[i]); 
-    }
-    fprintf(stdout, "\n");
-
     gzclose(file);
+
+
+
     return true;
 }
 
+
+DataType get_data_type(const char* filepath){
+
+    int err = 0;
+    char first_char = '\0';
+    char eof = -1;
+
+
+    gzFile file = gzopen(filepath, "r");
+    if(!file){ 
+        fprintf(stderr, "Error: %s.\n", gzerror(file, &err));
+        exit(EXIT_FAILURE);
+    }
+
+    first_char = gzgetc(file);
+    if(first_char == eof){ 
+        fprintf(stderr, "File is empty: %s.\n", filepath);
+        exit(EXIT_FAILURE);
+    }
+    
+    if(first_char == '>'){
+        return FASTA;
+    }else if(first_char == '@'){
+        return FASTQ;
+    }else{ 
+        fprintf(stderr, "Cannot discern file type for: %s.\n", filepath);
+        exit(EXIT_FAILURE);
+    } 
+
+
+}
 
 
