@@ -2,7 +2,6 @@
 add_executable(test_sequence_parsing test_sequence.c)   
 
 
-
 find_package(ZLIB REQUIRED)
 if(ZLIB_FOUND)
     message(STATUS "ZLIB found: ${ZLIB_LIBRARIES}")
@@ -11,7 +10,7 @@ else()
     message(FATAL_ERROR, "ZLIB not found")
 endif()
 
-file(GLOB SOURCES ./*.txt ./*.fasta ./*.fastq)
+file(GLOB SOURCES ./*.txt ./*.fasta ./*.fastq ./*.fa ./*.gz)
 
 target_link_libraries(test_sequence_parsing Unity ZLIB::ZLIB)   
 target_include_directories(test_sequence_parsing PUBLIC

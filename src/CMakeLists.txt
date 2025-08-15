@@ -1,4 +1,4 @@
-file(GLOB SOURCES ./*.c)  
+file(GLOB SOURCES ./*.c ./*.h)  
 add_executable(kmer-compressor ${SOURCES})  
 
 find_package(ZLIB REQUIRED)
