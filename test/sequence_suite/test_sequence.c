@@ -52,7 +52,7 @@ void test_data_reader(void){
   
 void test_compress_kmers(void){
     const SeqData* seq_data = get_data("realn02.fa");
-    compress_kmers(seq_data, 5); 
+    compress_kmers(seq_data, 12); 
 }
 
 
