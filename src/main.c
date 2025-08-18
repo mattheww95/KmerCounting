@@ -1,4 +1,4 @@
-#include "sequence.h"
+#include "codify_kmers.h"
 
 
 int main(){

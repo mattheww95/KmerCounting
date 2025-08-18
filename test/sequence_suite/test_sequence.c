@@ -15,7 +15,7 @@
  *
  * =====================================================================================
  */
-#include "sequence.h"
+#include "codify_kmers.h"
 #include "unity.h"
 
 
@@ -42,16 +42,25 @@ void test_get_data_type(void){
     TEST_ASSERT(get_data_type("test.fasta") == FASTA);
     TEST_ASSERT(get_data_type("test.fastq") == FASTQ);
 }
-
 */
 
 void test_data_reader(void){
     TEST_ASSERT(get_data("realn02.fa"));
 }
 
+
+  
+void test_compress_kmers(void){
+    const SeqData* seq_data = get_data("realn02.fa");
+    compress_kmers(seq_data, 5); 
+}
+
+
+
 int main(void){
     UNITY_BEGIN();
-//    RUN_TEST(test_isgzip);
+    RUN_TEST(test_data_reader);
+    RUN_TEST(test_compress_kmers);
 //    RUN_TEST(test_read_file);
 //    RUN_TEST(test_get_data_type);
     return UNITY_END();
