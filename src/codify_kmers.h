@@ -28,7 +28,22 @@ static const unsigned char chunk_size = 4;
 #define code_buffer_size  64
 
 
+// Buffer struct for storage of codes
+typedef struct CodeArena{
+    unsigned short int code_size;
+    size_t items;
+    size_t size;
+    unsigned char* codes;
+}CodeArena;
+
+CodeArena* init_code_arena(unsigned short int code_size, size_t starting_size);
+
+void add_code(unsigned char* buffer, CodeArena* code_arena);
+
+void destroy_code_arena(CodeArena* code_arena);
+
 void compress_kmers(const SeqData*, size_t kmer_length);
 
+void print_codes(CodeArena* code_arena);
 
 #endif
