@@ -20,10 +20,10 @@
 #include "codify_kmers.h"
 
 
-static const unsigned char A = 0x00000000; // 0
-static const unsigned char T = 0x00000001; // 1, 4, 16, 64
-static const unsigned char C = 0x00000010; // 2, 8, 32, 128
-static const unsigned char G = 0x00000011; // 3, 12, 48, 192
+static const unsigned char A = 0b00000000; // 0
+static const unsigned char T = 0b00000001; // 1, 4, 16, 64
+static const unsigned char C = 0b00000010; // 2, 8, 32, 128
+static const unsigned char G = 0b00000011; // 3, 12, 48, 192
 
 
 unsigned char set_value(char input){
@@ -61,32 +61,47 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
 
     
     unsigned char buffer[code_buffer_size] = {0};
+    const unsigned short int error_value = 255;
 
     for(size_t i = 0; i <= seq_data->length-kmer_length; i++){
         // compression loop here 
         bool bad_kmer = false;
         size_t counter = 0;
-        fprintf(stdout, "%c\n", seq_data->sequence[i]);
+        size_t y = 0;
         // Issue getting all k-mers for shorter values
-        for(size_t y = 0; y < kmer_length - chunk_size; y=y+chunk_size){
+        for(;y <= kmer_length - chunk_size; y=y+chunk_size){
             
             //unsigned short int value = 0;
-            unsigned char value = 0;
-            char v1 = seq_data->sequence[i+y], v2 = seq_data->sequence[i+y+1], v3 = seq_data->sequence[i+y+2], v4= seq_data->sequence[i+y+3];
-            // something is wrong here..
-            value = value | set_value(v1);
-            fprintf(stdout, "V1: %c dec: %d \n", v1, value);
-            value = value | (set_value(v2) << 2);
-            fprintf(stdout, "V2 %c  %d, dec: %d \n", v2, v2 << 2, value);
-            value = value | (set_value(v3) << 4); 
-            fprintf(stdout, "V3 %c  %d, dec: %d \n", v3, v3 << 4, value);
-            value = value | (set_value(v4) << 6); 
-            fprintf(stdout, "V4 %c  %d, dec: %d \n", v4, v4 << 6, value);
-            fprintf(stdout, " %c%c%c%c dec: %d char: %c\n", v1, v2, v3, v4, value, value);
+            unsigned short int value = 0;
+            char v1 = seq_data->sequence[i+y], 
+                 v2 = seq_data->sequence[i+y+1], 
+                 v3 = seq_data->sequence[i+y+2], 
+                 v4= seq_data->sequence[i+y+3];
 
-            if(value > 255){
+            value = value | set_value(v1);
+            value = value | (set_value(v2) << 2);
+            value = value | (set_value(v3) << 4); 
+            value = value | (set_value(v4) << 6); 
+
+            if(value > error_value){
                 bad_kmer = true;
                 break;  
+            }
+            buffer[counter] = value;
+            counter++;
+        }
+
+        // If non-zero value is present we have some parts of the k-mer left over
+        size_t leftover = kmer_length - y;
+        if(leftover){
+            unsigned short int value = 0;
+            for(size_t f = 0; f < leftover; f++){
+                value = value | (set_value(seq_data->sequence[i+y+f]) << (f * 2));
+            }
+
+            if(value > error_value){
+                bad_kmer = true;
+                continue;  
             }
             buffer[counter] = value;
             counter++;
