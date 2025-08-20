@@ -33,6 +33,7 @@ typedef struct CodeArena{
     unsigned short int code_size;
     size_t items;
     size_t size;
+    // Maybe better to store data as a min-heap on insertion
     unsigned char* codes;
 }CodeArena;
 
