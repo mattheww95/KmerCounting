@@ -95,7 +95,14 @@ void add_code(unsigned char* buffer, CodeArena* code_arena){
 
 void print_codes(CodeArena* code_arena){
 
-
+    size_t items = code_arena->items * code_arena->code_size;
+    for(size_t i = 0; i < items; i=i+code_arena->code_size){
+        size_t y = 0;
+        for(;y < code_arena->code_size-1; y++){
+            printf("%d.", code_arena->codes[i+y]);         
+        }
+        printf("%d\n", code_arena->codes[i+y]);         
+    }
 }
 
 void compress_kmers(const SeqData* seq_data, size_t kmer_length){
@@ -123,7 +130,7 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
         for(;y <= kmer_length - chunk_size; y=y+chunk_size){
             
             //unsigned short int value = 0;
-            unsigned short int value = 0;
+            unsigned char value = 0;
             char v1 = seq_data->sequence[i+y], 
                  v2 = seq_data->sequence[i+y+1], 
                  v3 = seq_data->sequence[i+y+2], 
@@ -147,7 +154,7 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
         // If non-zero value is present we have some parts of the k-mer left over
         size_t leftover = kmer_length - y;
         if(leftover > 0){
-            unsigned short int value = 0;
+            unsigned char value = 0;
             for(size_t f = 0; f < leftover; f++){
                 value = value | (set_value(seq_data->sequence[i+y+f], &bad_kmer) << (f * 2));
             }
@@ -177,6 +184,10 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
 #endif
         memset(buffer, 0, code_buffer_size);
     }
+
+#ifdef DEBUG
+    print_codes(code_arena);
+#endif
 
 }
 
