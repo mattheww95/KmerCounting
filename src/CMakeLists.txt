@@ -16,6 +16,13 @@ if(TARGET_GROUP STREQUAL test)
         ${ZLIB_INCLUDE_DIRS})
     target_link_libraries(Testing PUBLIC ZLIB::ZLIB)
 
+elseif(TARGET_GROUP STREQUAL debug)
+
+    add_executable(kmer-compressor-debug ${SOURCES})  
+    target_include_directories(kmer-compressor-debug PUBLIC ${CMAKE_CURRENT_LIST_DIR}
+        ${ZLIB_INCLUDE_DIRS})
+    target_link_libraries(kmer-compressor-debug PUBLIC ZLIB::ZLIB)
+
 elseif(TARGET_GROUP STREQUAL release)
     add_executable(kmer-compressor ${SOURCES})  
     target_link_libraries(kmer-compressor PUBLIC ZLIB::ZLIB)
