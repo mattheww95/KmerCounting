@@ -18,6 +18,10 @@
 #include <stdint.h>
 #include "kseq.h"
 
+static const unsigned char A = 0b00000000; // 0
+static const unsigned char T = 0b00000001; // 1, 4, 16, 64
+static const unsigned char C = 0b00000010; // 2, 8, 32, 128
+static const unsigned char G = 0b00000011; // 3, 12, 48, 192
 
 
 typedef struct SeqData{
