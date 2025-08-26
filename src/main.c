@@ -38,6 +38,11 @@ void print_help(Opt* opts){
 
 }
 
+void print_missing_arg(Opt* opts, size_t idx){
+    printf("\nMissing required argument: -%c|--%s\n\n", opts[idx].val, opts[idx].name);
+    print_help(opts);
+    exit(EXIT_FAILURE);
+}
 
 int main(int argc, char** argv){
     int c = 0;
@@ -63,6 +68,8 @@ int main(int argc, char** argv){
         if(c==-1)
             break;
         switch(c){
+            case '?':
+                break;
             case 'i':
                 input_file = optarg;
                 break;
@@ -77,6 +84,16 @@ int main(int argc, char** argv){
                 exit(EXIT_FAILURE);
             
         }
+    }
+
+    
+
+    if(kmer_size == 0){
+        print_missing_arg(long_options, 1);
+    }
+
+    if(input_file == NULL){
+        print_missing_arg(long_options, 0);
     }
 
 
