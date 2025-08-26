@@ -6,6 +6,7 @@ Requires:
     - zlib
     - CMake
     - GCC
+    - make
 
 ## Installation
 
@@ -17,6 +18,8 @@ To make a debug build run: `cmake .. -DTARGET_GROUP=debug`
 
 
 To run tests build run: `cmake .. -DTARGET_GROUP=test`
+
+After running any of the cmake options, simply run `make` in the build directory
 
 
 Release build will be generated in `build/src/kmer-compressor`
