@@ -3,9 +3,13 @@
 ## Requirments
 
 Requires:
+
     - zlib
+
     - CMake
+
     - GCC
+
     - make
 
 ## Installation
