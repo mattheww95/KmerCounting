@@ -108,10 +108,18 @@ unsigned char set_value(char input, bool* bad_kmer){
 CodeArena* init_code_arena(unsigned short int code_size, size_t starting_size){
     
     CodeArena* code_arena = (CodeArena*)malloc(sizeof(CodeArena));
+    if(code_arena == NULL){
+       fprintf(stderr, "Could not allocate arena for code storage. %d\n", __LINE__); 
+       exit(EXIT_FAILURE); 
+    }
     code_arena->items = 0;
     code_arena->code_size = code_size; 
     code_arena->size = code_size * starting_size;
     code_arena->codes = (unsigned char*)malloc(sizeof(unsigned char) * starting_size * code_size);
+    if(code_arena->codes == NULL){
+       fprintf(stderr, "Could not allocate array for code storage. %d\n", __LINE__); 
+       exit(EXIT_FAILURE); 
+    }
 
     return code_arena;
 }
@@ -126,7 +134,13 @@ void destroy_code_arena(CodeArena* code_arena){
 void add_code(unsigned char* buffer, CodeArena* code_arena){
     
     if((code_arena->code_size * code_arena->items) >= code_arena->size){
-        code_arena->codes = realloc(code_arena->codes, code_arena->size * 2 ); 
+        unsigned char* tmp = NULL;
+        tmp = realloc(code_arena->codes, code_arena->size * 2 ); 
+        if(tmp == NULL){
+            fprintf(stderr, "Could not re-allocate larger arena for codes. %d\n", __LINE__); 
+            exit(EXIT_FAILURE); 
+        }
+        code_arena->codes = tmp;
         code_arena->size = code_arena->size * 2; 
     }
     size_t start_pos = code_arena->items * code_arena->code_size;
@@ -142,7 +156,8 @@ void add_code(unsigned char* buffer, CodeArena* code_arena){
 void print_codes(CodeArena* code_arena){
 
     size_t items = code_arena->items * code_arena->code_size;
-    for(size_t i = 0; i < items; i=i+code_arena->code_size){
+    size_t i = 0;
+    for(; i < items; i=i+code_arena->code_size){
         size_t y = 0;
         for(;y < (size_t)code_arena->code_size-1; y++){
             printf("%d.", code_arena->codes[i+y]);         
@@ -296,7 +311,8 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
     print_codes(code_arena);
 #endif
     print_codes(code_arena);
-
+    
+    destroy_code_arena(code_arena);
 }
 
 
