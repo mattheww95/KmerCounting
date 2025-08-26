@@ -54,6 +54,8 @@ CodeArena* get_data(const char* filepath, size_t kmer_length);
 
 CodeArena* init_code_arena(unsigned short int code_size, size_t starting_size);
 
+void print_code_count(unsigned char* data, size_t code_size, size_t counter);
+
 void add_code(unsigned char* buffer, CodeArena* code_arena);
 
 void destroy_code_arena(CodeArena* code_arena);

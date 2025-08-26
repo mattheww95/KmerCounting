@@ -166,13 +166,33 @@ void print_codes(CodeArena* code_arena){
     }
 }
 
+
+void print_code_count(unsigned char* data, size_t code_size, size_t counter){
+        
+    size_t y = 0;
+    printf("%ld\t", counter);
+    for(;y < (size_t)code_size-1; y++){
+         printf("%d.", data[y]);         
+    }
+    printf("%d\n", data[y]);         
+}
+
 bool compare_codes(const unsigned char* c1, const unsigned char* c2, size_t code_length){
     size_t idx = 0;
+    /*  for(size_t i = 0; i < code_length; i++){
+        if(c1[i] != c2[i]){
+            return false;
+        } 
+    }
+    */
+      
     while(idx != code_length){
         if(c1[idx] != c2[idx]){
             return false;
         } 
+        idx++;
     }
+    
     return true;
 }
 
