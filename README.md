@@ -47,3 +47,8 @@ Options:
         Show help and exit.
 
 ```
+
+
+## Purpose
+
+Just trying to remain competent in C.
