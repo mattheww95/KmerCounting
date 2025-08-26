@@ -60,6 +60,8 @@ void destroy_code_arena(CodeArena* code_arena);
 
 void compress_kmers(const SeqData*, size_t kmer_length);
 
+bool compare_codes(const unsigned char* c1, const unsigned char* c2, size_t code_length);
+
 void print_codes(CodeArena* code_arena);
 
 void compress_sequence(CodeArena* code_arena, char const* sequence, size_t length, size_t kmer_length);

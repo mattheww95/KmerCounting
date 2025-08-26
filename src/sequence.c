@@ -166,6 +166,16 @@ void print_codes(CodeArena* code_arena){
     }
 }
 
+bool compare_codes(const unsigned char* c1, const unsigned char* c2, size_t code_length){
+    size_t idx = 0;
+    while(idx != code_length){
+        if(c1[idx] != c2[idx]){
+            return false;
+        } 
+    }
+    return true;
+}
+
 
 void compress_sequence(CodeArena* code_arena, char const* sequence, size_t length, size_t kmer_length){
 
