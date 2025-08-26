@@ -28,3 +28,22 @@ After running any of the cmake options, simply run `make` in the build directory
 
 Release build will be generated in `build/src/kmer-compressor`
 
+
+
+## Usage
+
+
+```
+Welcome to our slow k-mer counting program!
+
+Options:
+  [REQUIRED] -i|--input:
+        Input file.
+  [REQUIRED] -s|--size:
+        Kmer size.
+  [REQUIRED] -o|--output:
+        Output file.
+  -h|--help:
+        Show help and exit.
+
+```
