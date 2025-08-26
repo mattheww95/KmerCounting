@@ -49,7 +49,7 @@ int main(int argc, char** argv){
     int c = 0;
     static Opt long_options[] = {
         {"input",required_argument,0,'i', "Input file."}, 
-        {"size",required_argument,0,'s',"Kmer size."}, 
+        {"size",required_argument,0,'s',"Kmer size Must be smaller than 256."}, 
         {"output",required_argument,0,'o',"Output file."}, 
         {"help",no_argument,0,'h', "Show help and exit."},
         {0,0,0,0,0} 
@@ -99,6 +99,11 @@ int main(int argc, char** argv){
         print_missing_arg(long_options, 1);
     }
 
+    if(kmer_size > 255){
+        fprintf(stderr, "Kmer size specified is too long, must shorter than 255\n"); 
+        exit(EXIT_FAILURE);
+    }
+
     if(input_file == NULL){
         print_missing_arg(long_options, 0);
     }
@@ -106,6 +111,8 @@ int main(int argc, char** argv){
     if(output_file == NULL){
         print_missing_arg(long_options, 0);
     }
+
+    
 
 
     CodeArena* codes = get_data(input_file, kmer_size);
