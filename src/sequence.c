@@ -41,7 +41,7 @@ void add_sequence_data(SeqData* data, char* new_data, size_t data_length){
 
 
 
-void get_data(const char* filepath, size_t kmer_length){    
+CodeArena* get_data(const char* filepath, size_t kmer_length){    
     gzFile fp;
     kseq_t *seq;
     int l = 0;
@@ -61,7 +61,6 @@ void get_data(const char* filepath, size_t kmer_length){
     kseq_destroy(seq);
     gzclose(fp);
 
-    print_codes(code_arena);
 #ifdef DEBUG
     printf("In debug mode. \n");
     for(size_t i = 0; i <= seq_data->length; i++){
@@ -69,6 +68,7 @@ void get_data(const char* filepath, size_t kmer_length){
     }
     printf("\n");
 #endif
+    return code_arena;
 }
 
 
@@ -239,7 +239,6 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
     const unsigned short int error_value = 255;
     // integer ceiling division
     unsigned short int code_size = (kmer_length + chunk_size - 1) / chunk_size;
-    const size_t starting_buffer_size = 1024; 
 
     CodeArena* code_arena = init_code_arena(code_size, starting_buffer_size);
 
@@ -310,7 +309,6 @@ void compress_kmers(const SeqData* seq_data, size_t kmer_length){
 #ifdef DEBUG
     print_codes(code_arena);
 #endif
-    print_codes(code_arena);
     
     destroy_code_arena(code_arena);
 }

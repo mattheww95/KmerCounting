@@ -22,6 +22,7 @@ static const unsigned char A = 0b00000000; // 0
 static const unsigned char T = 0b00000001; // 1, 4, 16, 64
 static const unsigned char C = 0b00000010; // 2, 8, 32, 128
 static const unsigned char G = 0b00000011; // 3, 12, 48, 192
+static const size_t starting_buffer_size = 1024; // 3, 12, 48, 192
 
 
 typedef struct SeqData{
@@ -32,7 +33,6 @@ typedef struct SeqData{
 
 void add_sequence_data(SeqData* data, char* new_data, size_t data_length);
 
-void get_data(const char* filepath, size_t kmer_length);
 
 static const unsigned short int MAX_KMER_LENGTH = 256;
 static const unsigned char chunk_size = 4;
@@ -42,13 +42,15 @@ static const unsigned char chunk_size = 4;
 
 // Buffer struct for storage of codes
 typedef struct CodeArena{
-    unsigned short int code_size;
+    unsigned char code_size;
     size_t items;
     size_t size;
     // Maybe better to store data as a min-heap, pairing heap or fibonacci heap on insertion
     unsigned char* codes;
     // can probably write a function to convert each set of codes into a scalar value 
 }CodeArena;
+
+CodeArena* get_data(const char* filepath, size_t kmer_length);
 
 CodeArena* init_code_arena(unsigned short int code_size, size_t starting_size);
 

@@ -1,4 +1,5 @@
 #include "sequence.h"
+#include "rdx_sort.h"
 #include <getopt.h>
 
 
@@ -98,6 +99,8 @@ int main(int argc, char** argv){
     }
 
 
-    get_data(input_file, kmer_size);
+    CodeArena* codes = get_data(input_file, kmer_size);
+    sort_kmer_codes(codes);
+
     return 0;
 }
