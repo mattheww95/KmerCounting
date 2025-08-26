@@ -50,10 +50,12 @@ int main(int argc, char** argv){
     static Opt long_options[] = {
         {"input",required_argument,0,'i', "Input file."}, 
         {"size",required_argument,0,'s',"Kmer size."}, 
+        {"output",required_argument,0,'o',"Output file."}, 
         {"help",no_argument,0,'h', "Show help and exit."},
         {0,0,0,0,0} 
     };
     const char* input_file = NULL;
+    const char* output_file = NULL;
     size_t kmer_size = 0;
     
     if(argc <= 1){
@@ -65,12 +67,15 @@ int main(int argc, char** argv){
         // Have GCC ignore my overriding of the options
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
-        c = getopt_long(argc, argv, "hi:s:", long_options, &option_index);
+        c = getopt_long(argc, argv, "hi:s:o:", long_options, &option_index);
 #pragma GCC diagnostic pop
         if(c==-1)
             break;
         switch(c){
             case '?':
+                break;
+            case 'o':
+                output_file = optarg;
                 break;
             case 'i':
                 input_file = optarg;
@@ -98,9 +103,13 @@ int main(int argc, char** argv){
         print_missing_arg(long_options, 0);
     }
 
+    if(output_file == NULL){
+        print_missing_arg(long_options, 0);
+    }
+
 
     CodeArena* codes = get_data(input_file, kmer_size);
-    sort_kmer_codes(codes);
+    sort_kmer_codes(codes, output_file);
 
     return 0;
 }
