@@ -61,6 +61,7 @@ int main(int argc, char** argv){
     while(1){
     
         int option_index = 0; 
+        // Have GCC ignore my overriding of the options
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
         c = getopt_long(argc, argv, "hi:s:", long_options, &option_index);
