@@ -144,7 +144,7 @@ void print_codes(CodeArena* code_arena){
     size_t items = code_arena->items * code_arena->code_size;
     for(size_t i = 0; i < items; i=i+code_arena->code_size){
         size_t y = 0;
-        for(;y < code_arena->code_size-1; y++){
+        for(;y < (size_t)code_arena->code_size-1; y++){
             printf("%d.", code_arena->codes[i+y]);         
         }
         printf("%d\n", code_arena->codes[i+y]);         

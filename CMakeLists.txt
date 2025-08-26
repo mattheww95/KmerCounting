@@ -16,7 +16,7 @@ if(TARGET_GROUP STREQUAL release) # If we had any files that ONLY were compiled 
     add_subdirectory(src)
  
 elseif(TARGET_GROUP STREQUAL debug)    
-    set(CMAKE_C_FLAGS "-Wall -g") 
+    set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g") 
     add_subdirectory(src)
 
 elseif(TARGET_GROUP STREQUAL test) # Our tests need to let CTest know we're running tests    
