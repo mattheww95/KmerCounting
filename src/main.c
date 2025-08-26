@@ -12,11 +12,12 @@ typedef struct Opt{
 
 
 void print_help(Opt* opts){
-    printf("Welcome to our slow k-mer counting program!\n\n");
+    printf("\nWelcome to our slow k-mer counting program!\n\n");
     printf("Options:\n");
     size_t counter = 0;
     while(1){
         if(opts[counter].name == 0 && opts[counter].has_arg == 0){
+            printf("\n");
             exit(EXIT_SUCCESS); 
 
         }

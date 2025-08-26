@@ -167,7 +167,7 @@ void print_codes(CodeArena* code_arena){
 }
 
 
-void compress_sequence(CodeArena* code_arena, char* sequence, size_t length, size_t kmer_length){
+void compress_sequence(CodeArena* code_arena, char const* sequence, size_t length, size_t kmer_length){
 
     
     unsigned char buffer[code_buffer_size] = {0};
