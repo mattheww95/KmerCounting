@@ -11,7 +11,7 @@ set (TARGET_GROUP production CACHE STRING "What Should I Build?")  # Modules tha
 
 if(TARGET_GROUP STREQUAL release) # If we had any files that ONLY were compiled into our release, for example startup code,   
     # it's really handy to put it here.  
-    set(CMAKE_C_FLAGS "-Wall -O3")
+    set(CMAKE_C_FLAGS "-Wall -O3 -msse2 -mfpmath=sse -fopt-info-vec-all -flto")
     
     add_subdirectory(src)
  
